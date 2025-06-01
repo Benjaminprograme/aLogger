@@ -1,111 +1,77 @@
 #pragma once
 #include <iostream>
-#include <fstream>
+#include <string>
+#include <chrono>
+
 #include <vector>
-#include <algorithm>
+#include <fstream>
+#include <sstream>
 
-namespace aLogger {
-    using namespace std;
+namespace console {
+enum logTypes {
+    regular =0,
+    warning,
+    error,
+    internalConsoleError,
+    table,
+    input,
+};
 
-    enum types {
-        message = 1,
-        warning,
-        error,
-        questions,
-        internalLoggerMessage
-    };
+    static std::string formatLogEntry(std::string content, const int type) {
+        using namespace std;
+        string prefix = "@";
+        string prefixColor = "\033[37m"; // default: white text
+        string reset = "\033[0m";
+        string bgWhite = "\033[47m"; // white background
 
-    class logEntry {
-    public:
-        string content;
-        string formatedContent;
-        int type;
-        static vector<logEntry*> instances;
+        auto now = std::chrono::system_clock::now();
+        string timestamp = std::format("{:%Y-%m-%d %H:%M:%S}", now);
 
-        logEntry(const string& content,const string& formatedContent ,int type) {
-            this->content = content;
-            this->type = type;
-            this->formatedContent = formatedContent;
-            instances.push_back(this);
-            cout << content;
+        // Determine prefix and color
+        switch (type) {
+            case logTypes::regular:
+                prefix = "@";
+                prefixColor = "\033[37m";  // white
+                break;
+            case logTypes::warning:
+                prefix += "WARNING:";
+                prefixColor = "\033[33m";  // yellow
+                break;
+            case logTypes::error:
+                prefix += "ERROR:";
+                prefixColor = "\033[31m";  // red
+                break;
+            case logTypes::internalConsoleError:
+                prefix += "INTERNAL CONSOLE ERROR:";
+                prefixColor = "\033[35m";  // magenta
+                break;
+            case logTypes::table:
+                prefix += "TABLE:";
+                prefixColor = "\033[36m";  // cyan
+                break;
+            case logTypes::input:
+                prefix += ">/";
+                prefixColor = "\033[32m";  // green
+                break;
+            default:
+                prefix = "@";
+                prefixColor = "\033[37m";  // white
+                break;
         }
+string timestampColor = "\033[35m";
+        // Format string: background white, colored prefix, reset, normal content
+        string formattedString =
+              prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]: " + reset + content + reset;
 
-        // Destructor does NOT remove from instances to keep entries alive
-        ~logEntry() = default;
-    };
-
-    // Static member definition
-    vector<logEntry*> logEntry::instances;
-
-    const int defaultTyping = types::message;
-
-    void log(const string& outputString) {
-        const char prefix = '@';
-        char suffix = '.';
-        const string colorCode = "\033[32m";
-        const string resetColor = "\033[0m";
-
-        if (!outputString.empty() && (outputString.back() == '.' || outputString.back() == '!' || outputString.back() == '?')) {
-            suffix = ' ';
-        }
-
-        new logEntry(colorCode + prefix + resetColor + outputString + colorCode + suffix + resetColor + "\n", outputString +  suffix +  "\n" ,defaultTyping);
+        return formattedString;
     }
 
-    void log(const string& outputString, bool formatOutput) {
-        const char prefix = '@';
-        if (formatOutput) {
-            new logEntry(string(1, prefix) + outputString + "\n", outputString +"\n" ,defaultTyping);
-        } else {
-            log(outputString, defaultTyping);
-        }
-    }
+    template<typename T>
+   void log(const T& content) {
+    std::ostringstream oss;
+    oss << content;
 
-    void log(const string& outputString, int type) {
-        string prefix;
-        string suffix;
-        string colorCode = "\033[32m";
-        const string resetColor = "\033[0m";
-
-        if (type == message) {
-            prefix = "Message: ";
-            suffix = ".";
-        } else if (type == warning) {
-            prefix = "Warning: ";
-            suffix = " !";
-            colorCode = "\033[33m";
-        } else if (type == error) {
-            prefix = "Error: ";
-            suffix = " !!!";
-            colorCode = "\033[31m";
-        } else if (type == questions) {
-            suffix = " ?";
-            colorCode = "\033[36m";
-        }
-
-        if (!outputString.empty() && (outputString.back() == '.' || outputString.back() == '!' || outputString.back() == '?')) {
-            suffix = "";
-        }
-
-        new logEntry("@" + colorCode + prefix + resetColor + outputString + colorCode + suffix + resetColor + "\n",prefix +  outputString +  suffix +  "\n" ,type);
-    }
-
-    void saveLogData(const string& fileName) {
-        cout << "Saving log data to " << fileName << endl;
-        ofstream file(fileName + ".txt");
-        cout << "Total entries: " << logEntry::instances.size() << endl;
-        file <<fileName <<":\n" <<"Total entries: " << logEntry::instances.size() << "\n \n";
-        for (auto entry : logEntry::instances) {
-            file << entry->formatedContent;
-        }
-        file.close();
-    }
-
-    // Optional: clear all stored entries and free memory (call at program end if needed)
-    void clearLogEntries() {
-        for (auto entry : logEntry::instances) {
-            delete entry;
-        }
-        logEntry::instances.clear();
-    }
+    std::cout << formatLogEntry(oss.str(), logTypes::warning) << std::endl;
 }
+}
+
