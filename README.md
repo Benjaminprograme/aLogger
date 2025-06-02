@@ -26,6 +26,9 @@
 | `input`              | User command inputs             | `>/ command here`     |
 
 ## Example
+![image](https://github.com/user-attachments/assets/c8335cd1-de14-4811-b473-e92ea5e9887b)
+
+=---------------------------------------------------------------------------------------=
 ![image](https://github.com/user-attachments/assets/ddd19321-65fb-426a-96b9-b35f96d604dd)
 
 
