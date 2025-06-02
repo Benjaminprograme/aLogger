@@ -2,8 +2,6 @@
 #include <iostream>
 #include <string>
 #include <chrono>
-
-#include <vector>
 #include <fstream>
 #include <sstream>
 
@@ -12,11 +10,9 @@ enum logTypes {
     regular =0,
     warning,
     error,
-    internalConsoleError,
     table,
     input,
 };
-
     template<typename T>
     static std::string formatLogEntry(T content, const int type) {
         using namespace std;
@@ -42,10 +38,6 @@ enum logTypes {
                 prefix += "ERROR";
                 prefixColor = "\033[31m";  // red
                 break;
-            case logTypes::internalConsoleError:
-                prefix += "INTERNAL CONSOLE ERROR";
-                prefixColor = "\033[35m";  // magenta
-                break;
             case logTypes::table:
                 prefix += "TABLE";
                 prefixColor = "\033[36m";  // cyan
@@ -63,20 +55,19 @@ enum logTypes {
         string timestampColor = "\033[35m";
         string formattedString ;
 
-        if (content != "" ) {
+        if (content != "" ) {       // Check if there is any content,if not maybe it is of input type
             ostringstream oss;
             oss << content;
-            formattedString =  prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]: " + reset +  oss.str() + reset;
-        }else if (type == input){
+            formattedString =  prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]: " + reset +  oss.str();
+        }else if (type == input){ //Allow for the user to interact with the app
             std::string input;
             cout <<  prefixColor + prefix;
        cin >> input;
-            formattedString =  prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]: " + reset +  input + reset;
+            formattedString =  prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]Exucuted: " +  reset + "/" +input;
+        }else { //If it not a command push an internal error
+            cout << "@"<<timestampColor<<"["<<timestamp<<"]:"<<"Unable to log,there is no content.\nTry changing it to a type that doesn't require any content like 'input' type.\nOr add some content.";
         }
-
-
-        // Format string: background white, colored prefix, reset, normal content
-
+        cout << reset; //Reset to regular font color
         return formattedString;
     }
 
