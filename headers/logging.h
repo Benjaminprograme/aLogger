@@ -17,7 +17,8 @@ enum logTypes {
     input,
 };
 
-    static std::string formatLogEntry(std::string content, const int type) {
+    template<typename T>
+    static std::string formatLogEntry(T content, const int type) {
         using namespace std;
         string prefix = "@";
         string prefixColor = "\033[37m"; // default: white text
@@ -34,23 +35,24 @@ enum logTypes {
                 prefixColor = "\033[37m";  // white
                 break;
             case logTypes::warning:
-                prefix += "WARNING:";
+                prefix += "WARNING";
                 prefixColor = "\033[33m";  // yellow
                 break;
             case logTypes::error:
-                prefix += "ERROR:";
+                prefix += "ERROR";
                 prefixColor = "\033[31m";  // red
                 break;
             case logTypes::internalConsoleError:
-                prefix += "INTERNAL CONSOLE ERROR:";
+                prefix += "INTERNAL CONSOLE ERROR";
                 prefixColor = "\033[35m";  // magenta
                 break;
             case logTypes::table:
-                prefix += "TABLE:";
+                prefix += "TABLE";
                 prefixColor = "\033[36m";  // cyan
                 break;
             case logTypes::input:
                 prefix += ">/";
+             content = "";
                 prefixColor = "\033[32m";  // green
                 break;
             default:
@@ -58,20 +60,34 @@ enum logTypes {
                 prefixColor = "\033[37m";  // white
                 break;
         }
-string timestampColor = "\033[35m";
+        string timestampColor = "\033[35m";
+        string formattedString ;
+
+        if (content != "" ) {
+            ostringstream oss;
+            oss << content;
+            formattedString =  prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]: " + reset +  oss.str() + reset;
+        }else if (type == input){
+            std::string input;
+            cout <<  prefixColor + prefix;
+       cin >> input;
+            formattedString =  prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]: " + reset +  input + reset;
+        }
+
+
         // Format string: background white, colored prefix, reset, normal content
-        string formattedString =
-              prefixColor + prefix + reset + timestampColor + " [" + timestamp + "]: " + reset + content + reset;
 
         return formattedString;
     }
 
     template<typename T>
    void log(const T& content) {
-    std::ostringstream oss;
-    oss << content;
-
-    std::cout << formatLogEntry(oss.str(), logTypes::warning) << std::endl;
+        std::cout << formatLogEntry(content ,logTypes::warning) << std::endl;
 }
+
+    template<typename T,typename T2>
+    void log(const T& content,const T2 type) {
+        std::cout << formatLogEntry(content, type) << std::endl;
+    }
 }
 
