@@ -25,7 +25,9 @@
 | `table`              | For formatted or structured data | `TABLE: ...`          |
 | `input`              | User command inputs             | `>/ command here`     |
 
----
+## Example
+![image](https://github.com/user-attachments/assets/ddd19321-65fb-426a-96b9-b35f96d604dd)
+
 
 ## 🔧 Installation
 
