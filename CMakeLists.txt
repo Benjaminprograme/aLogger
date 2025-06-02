@@ -4,4 +4,6 @@ project(aLogger)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(aLogger main.cpp
-        headers/logging.h)
+        headers/logging.h
+        headers/jsonParser.h
+        headers/logHistoryChecker.h)
