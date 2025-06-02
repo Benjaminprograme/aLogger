@@ -27,13 +27,10 @@
 
 ---
 
-## 📦 Usage
+## 🔧 Installation
 
-```cpp
-#include "aLogger.hpp"
+Add the library to your project:
 
-int main() {
-    console::log("Hello world", console::regular);
-    console::log("Invalid config!", console::error);
-    console::log("User input:", console::input);
-}
+### 1. Clone the repo (or add as a submodule)
+```bash
+git clone https://github.com/YourUsername/aLogger.git
