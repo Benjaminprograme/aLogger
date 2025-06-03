@@ -30,7 +30,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="98affa03-c9c3-46f3-8309-3db5b1092253" name="Changes" comment="" />
+    <list default="true" id="98affa03-c9c3-46f3-8309-3db5b1092253" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,6 +86,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cmake-build-debug" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
@@ -113,7 +120,7 @@
       <workItem from="1748815430384" duration="3235000" />
       <workItem from="1748860298739" duration="1634000" />
       <workItem from="1748898885291" duration="4079000" />
-      <workItem from="1748984937826" duration="1103000" />
+      <workItem from="1748984937826" duration="1375000" />
     </task>
     <servers />
   </component>
