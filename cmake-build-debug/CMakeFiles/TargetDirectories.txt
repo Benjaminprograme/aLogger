@@ -1,0 +1,3 @@
+/home/benjo/Desktop/Projects/aLogger/cmake-build-debug/CMakeFiles/aLogger.dir
+/home/benjo/Desktop/Projects/aLogger/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/benjo/Desktop/Projects/aLogger/cmake-build-debug/CMakeFiles/rebuild_cache.dir
