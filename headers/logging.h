@@ -73,7 +73,7 @@ enum logTypes {
 
     template<typename T>
    void log(const T& content) {
-        std::cout << formatLogEntry(content ,logTypes::warning) << std::endl;
+        std::cout << formatLogEntry(content ,logTypes::regular) << std::endl;
 }
 
     template<typename T,typename T2>
